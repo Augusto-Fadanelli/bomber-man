@@ -8,8 +8,8 @@ class StartGame:
     def __init__(self, map:np.matrix):
         self.map = map
 
-        self.__screen_width = 640
-        self.__screen_height = 480
+        self.__screen_width = 600
+        self.__screen_height = 400
         self.__screen = pygame.display.set_mode((self.__screen_width, self.__screen_height))
 
         self.__clock = pygame.time.Clock()
@@ -32,11 +32,25 @@ class StartGame:
             pygame.display.update()
 
     def __map_generate(self):
-        print(self.map)
+        for line in range(4):
+            for column in range(6):
+                print(self.map[line, column])
+                match self.map[line, column]:
+                    case 1:
+                        print('red')
+                    case 2:
+                        print('green')
+                    case 3:
+                        print('blue')
+                    case 4:
+                        print('yellow')
 
 
 if __name__ == '__main__': 
-    map = np.matrix([[1, 2], [3, 4]])
+    map = np.matrix([[1, 2, 3, 4, 1, 2], 
+                     [4, 3, 2, 1, 2, 3],
+                     [2, 1, 3, 4, 3, 1],
+                     [3, 2, 1, 2, 4, 3]])
 
     pygame.init()
     start = StartGame(map)
