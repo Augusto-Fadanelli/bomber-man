@@ -18,7 +18,7 @@ class StartGame:
         pygame.display.set_caption('Bomber-Man')
 
         # LOAD ASSETS
-        self.assets = []
+        self.__assets = []
         self.__load_assets()
 
         self.__loop()
@@ -44,26 +44,26 @@ class StartGame:
                 if(line < 11 and column < 13):
                     match self.map[line, column]:
                         case 'GR':
-                            self.__screen.blit(self.assets[0], (x, y))
+                            self.__screen.blit(self.__assets[0], (x, y))
                         case 'BG':
-                            self.__screen.blit(self.assets[1], (x, y))
+                            self.__screen.blit(self.__assets[1], (x, y))
                         case 'BA':
-                            self.__screen.blit(self.assets[2], (x, y))
+                            self.__screen.blit(self.__assets[2], (x, y))
                         case 'BO':
-                            self.__screen.blit(self.assets[3], (x, y))
+                            self.__screen.blit(self.__assets[3], (x, y))
                 if(column == 0 or column == 14):
-                    self.__screen.blit(self.assets[4], (column * 64, line * 64))
+                    self.__screen.blit(self.__assets[4], (column * 64, line * 64))
                 elif(line == 0 or line == 12):
-                    self.__screen.blit(self.assets[5], (column * 64, line * 64))
+                    self.__screen.blit(self.__assets[5], (column * 64, line * 64))
 
 
     def __load_assets(self):
-        self.assets.append(pygame.image.load(f'assets/{self.theme}/ground.jpg'))
-        self.assets.append(pygame.image.load(f'assets/{self.theme}/burnt_ground.jpg'))
-        self.assets.append(pygame.image.load(f'assets/{self.theme}/barricade.jpg'))
-        self.assets.append(pygame.image.load(f'assets/{self.theme}/box.jpg'))
-        self.assets.append(pygame.image.load(f'assets/{self.theme}/side_wall.jpg'))
-        self.assets.append(pygame.image.load(f'assets/{self.theme}/vertical_wall.jpg'))
+        self.__assets.append(pygame.image.load(f'assets/{self.theme}/ground.jpg'))
+        self.__assets.append(pygame.image.load(f'assets/{self.theme}/burnt_ground.jpg'))
+        self.__assets.append(pygame.image.load(f'assets/{self.theme}/barricade.jpg'))
+        self.__assets.append(pygame.image.load(f'assets/{self.theme}/box.jpg'))
+        self.__assets.append(pygame.image.load(f'assets/{self.theme}/side_wall.jpg'))
+        self.__assets.append(pygame.image.load(f'assets/{self.theme}/vertical_wall.jpg'))
 
 
 if __name__ == '__main__':
@@ -78,7 +78,7 @@ if __name__ == '__main__':
                      ['GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR'],
                      ['GR', 'GR', 'BO', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR'], 
                      ['GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR'],
-                     ['GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR'], 
+                     ['GR', 'GR', 'GR', 'GR', 'GR', 'BO', 'BO', 'BO', 'GR', 'GR', 'GR', 'GR', 'GR'], 
                      ['GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR'],
                      ['GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR'], 
                      ['GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR'],
