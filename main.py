@@ -3,11 +3,14 @@ from pygame.locals import *
 from sys import exit
 import numpy as np
 
+from players import *
+
 
 class StartGame:
-    def __init__(self, map:np.matrix, theme:str):
+    def __init__(self, map:np.matrix, theme:str, player:Player):
         self.map = map
         self.theme = theme
+        self.player = player
 
         self.__screen_width = 960
         self.__screen_height = 832
@@ -21,6 +24,8 @@ class StartGame:
         self.__assets = []
         self.__load_assets()
 
+        self.player_direction = 'FRONT_IDLE'
+
         self.__loop()
 
     def __loop(self):
@@ -33,7 +38,19 @@ class StartGame:
                     pygame.quit()
                     exit()
 
+                if event.type == KEYDOWN:
+                    if event.key == K_w:
+                        self.player_direction = 'BACK_IDLE'
+                    elif event.key == K_s:
+                        self.player_direction = 'FRONT_IDLE'
+                    elif event.key == K_a:
+                        self.player_direction = 'LEFT_IDLE'
+                    elif event.key == K_d:
+                        self.player_direction = 'RIGHT_IDLE'
+
             self.__map_generate()
+            self.__draw_players(self.player_direction)
+
             pygame.display.update()
 
     def __map_generate(self):
@@ -65,6 +82,9 @@ class StartGame:
         self.__assets.append(pygame.image.load(f'assets/{self.theme}/side_wall.jpg'))
         self.__assets.append(pygame.image.load(f'assets/{self.theme}/vertical_wall.jpg'))
 
+    def __draw_players(self, direction:str):
+        self.__screen.blit(self.player.get_sprite(), (50, 50), self.player.get_cropped_image(direction, 0))
+
 
 if __name__ == '__main__':
     '''
@@ -84,8 +104,10 @@ if __name__ == '__main__':
                      ['GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR'],
                      ['GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR'], 
                      ['GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR', 'BA', 'GR'],
-                     ['GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR']])
+                     ['BO', 'BG', 'BG', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR', 'GR']])
+
+    player1 = Player('rodolfo');
 
     pygame.init()
-    start = StartGame(map, theme='classic')
+    start = StartGame(map, theme='classic', player=player1)
 
