@@ -38,15 +38,26 @@ class StartGame:
                     pygame.quit()
                     exit()
 
+                # Movimentação do player
                 if event.type == KEYDOWN:
                     if event.key == K_w:
                         self.player_direction = 'BACK_IDLE'
+                        self.player.set_direction('UP') 
                     elif event.key == K_s:
                         self.player_direction = 'FRONT_IDLE'
+                        self.player.set_direction('DOWN') 
                     elif event.key == K_a:
                         self.player_direction = 'LEFT_IDLE'
+                        self.player.set_direction('LEFT')
                     elif event.key == K_d:
                         self.player_direction = 'RIGHT_IDLE'
+                        self.player.set_direction('RIGHT')
+
+                if event.type == KEYUP:
+                    if event.key == K_w or event.key == K_s or event.key == K_a or event.key == K_d:
+                        self.player.stop_move()
+
+            self.player.move()
 
             self.__map_generate()
             self.__draw_players(self.player_direction)
@@ -83,7 +94,7 @@ class StartGame:
         self.__assets.append(pygame.image.load(f'assets/{self.theme}/vertical_wall.jpg'))
 
     def __draw_players(self, direction:str):
-        self.__screen.blit(self.player.get_sprite(), (50, 50), self.player.get_cropped_image(direction, 0))
+        self.__screen.blit(self.player.get_sprite(), self.player.get_pos(), self.player.get_cropped_image(direction, 0))
 
 
 if __name__ == '__main__':
