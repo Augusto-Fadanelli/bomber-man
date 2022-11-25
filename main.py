@@ -25,6 +25,7 @@ class StartGame:
         self.__load_assets()
 
         self.player_direction = 'FRONT_IDLE'
+        self.__is_keydown = (False, False, False, False) # Verifica se as teclas w, a, s, d (respectivamente) estão sendo pressionadas
 
         self.__loop()
 
@@ -42,20 +43,34 @@ class StartGame:
                 if event.type == KEYDOWN:
                     if event.key == K_w:
                         self.player_direction = 'BACK_IDLE'
-                        self.player.set_direction('UP') 
+                        self.player.set_direction('UP')
+                        self.__is_keydown = (True , self.__is_keydown[1], self.__is_keydown[2], self.__is_keydown[3])
                     elif event.key == K_s:
                         self.player_direction = 'FRONT_IDLE'
                         self.player.set_direction('DOWN') 
+                        self.__is_keydown = (self.__is_keydown[0], self.__is_keydown[1], True, self.__is_keydown[3])
                     elif event.key == K_a:
                         self.player_direction = 'LEFT_IDLE'
                         self.player.set_direction('LEFT')
+                        self.__is_keydown = (self.__is_keydown[0], True, self.__is_keydown[2], self.__is_keydown[3])
                     elif event.key == K_d:
                         self.player_direction = 'RIGHT_IDLE'
                         self.player.set_direction('RIGHT')
+                        self.__is_keydown = (self.__is_keydown[0], self.__is_keydown[1], self.__is_keydown[2], True)
 
+                # Mantém a movimentação mais fluida
                 if event.type == KEYUP:
-                    if event.key == K_w or event.key == K_s or event.key == K_a or event.key == K_d:
-                        self.player.stop_move()
+                    if event.key == K_w:
+                        self.__is_keydown = (False , self.__is_keydown[1], self.__is_keydown[2], self.__is_keydown[3])
+                    if event.key == K_s:
+                        self.__is_keydown = (self.__is_keydown[0], self.__is_keydown[1], False, self.__is_keydown[3])
+                    if event.key == K_a:
+                        self.__is_keydown = (self.__is_keydown[0], False, self.__is_keydown[2], self.__is_keydown[3])
+                    if event.key == K_d:
+                        self.__is_keydown = (self.__is_keydown[0], self.__is_keydown[1], self.__is_keydown[2], False)
+
+                if self.__is_keydown == (False, False, False, False):
+                    self.player.stop_move()
 
             self.player.move()
 
@@ -95,6 +110,12 @@ class StartGame:
 
     def __draw_players(self, direction:str):
         self.__screen.blit(self.player.get_sprite(), self.player.get_pos(), self.player.get_cropped_image(direction, 0))
+
+   # def __set_is_keydown(self, key):
+  #      # (w, a, s, d)
+ #       match key:
+#            case 'w':
+#                self.__is_keydown = (True, self.__is_keydown[1], self.__is_keydown[2])
 
 
 if __name__ == '__main__':
