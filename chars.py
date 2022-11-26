@@ -26,7 +26,6 @@ class Rodolfo(Character):
         self.__load_sprites()
 
         self.__speed = 3  # Velocidade do personagem
-        self.__is_alive = True
 
     def __load_sprites(self):
         self.__up_motion.append(self.__sprites_image.subsurface((0, 0, 64, 64)))

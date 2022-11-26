@@ -6,7 +6,7 @@ import numpy as np
 from players import *
 from chars import *
 
-#AQUI!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 class StartGame:
     def __init__(self, map:np.matrix, theme:str, player:Player):
         self.map = map
