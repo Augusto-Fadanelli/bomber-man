@@ -1,6 +1,6 @@
 ## Bomber-Man
 
-### Some Screenshots(Still in development)
+### Some Screenshots (Game is still in development)
 
 ![Bomber-man classic theme](/screenshots/classic_rodolfo.png "Bomber Classic Rodolfo")
 
