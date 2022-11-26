@@ -25,7 +25,7 @@ class Rodolfo(Character):
         self.__is_idle = True
         self.__load_sprites()
 
-        self.__speed = 3  # Velocidade do personagem
+        self.__speed = 4  # Velocidade do personagem
 
     def __load_sprites(self):
         self.__up_motion.append(self.__sprites_image.subsurface((0, 0, 64, 64)))
