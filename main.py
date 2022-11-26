@@ -6,7 +6,7 @@ import numpy as np
 from players import *
 from chars import *
 
-
+#AQUI!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 class StartGame:
     def __init__(self, map:np.matrix, theme:str, player:Player):
         self.map = map
@@ -25,7 +25,7 @@ class StartGame:
         self.__assets = []
         self.__load_assets()
 
-        self.__is_keydown = (False, False, False, False) # Verifica se as teclas w, a, s, d (respectivamente) estão sendo pressionadas
+        self.__is_keydown = [] # Verifica se as teclas w, a, s, d (respectivamente) estão sendo pressionadas
 
         self.__loop()
 
@@ -38,35 +38,7 @@ class StartGame:
                 if event.type == QUIT:
                     pygame.quit()
                     exit()
-
-                # Movimentação do player
-                if event.type == KEYDOWN:
-                    if event.key == K_w:
-                        self.player.set_direction('UP')
-                        self.__is_keydown = (True , self.__is_keydown[1], self.__is_keydown[2], self.__is_keydown[3])
-                    elif event.key == K_a:
-                        self.player.set_direction('LEFT')
-                        self.__is_keydown = (self.__is_keydown[0], True, self.__is_keydown[2], self.__is_keydown[3])
-                    elif event.key == K_s:
-                        self.player.set_direction('DOWN')
-                        self.__is_keydown = (self.__is_keydown[0], self.__is_keydown[1], True, self.__is_keydown[3])
-                    elif event.key == K_d:
-                        self.player.set_direction('RIGHT')
-                        self.__is_keydown = (self.__is_keydown[0], self.__is_keydown[1], self.__is_keydown[2], True)
-
-                # Mantém a movimentação mais fluida
-                if event.type == KEYUP:
-                    if event.key == K_w:
-                        self.__is_keydown = (False , self.__is_keydown[1], self.__is_keydown[2], self.__is_keydown[3])
-                    if event.key == K_s:
-                        self.__is_keydown = (self.__is_keydown[0], self.__is_keydown[1], False, self.__is_keydown[3])
-                    if event.key == K_a:
-                        self.__is_keydown = (self.__is_keydown[0], False, self.__is_keydown[2], self.__is_keydown[3])
-                    if event.key == K_d:
-                        self.__is_keydown = (self.__is_keydown[0], self.__is_keydown[1], self.__is_keydown[2], False)
-
-                if self.__is_keydown == (False, False, False, False):
-                    self.player.stop_move()
+                self.__player_movement(event)
 
             self.player.move()
 
@@ -74,6 +46,34 @@ class StartGame:
             self.__draw_players()
 
             pygame.display.update()
+
+    def __player_movement(self, event):
+        # Movimentação do player
+        if event.type == KEYDOWN:
+            if event.key == K_w:
+                self.__is_keydown.append('UP')
+            if event.key == K_a:
+                self.__is_keydown.append('LEFT')
+            if event.key == K_s:
+                self.__is_keydown.append('DOWN')
+            if event.key == K_d:
+                self.__is_keydown.append('RIGHT')
+
+        # Mantém a movimentação mais fluida
+        if event.type == KEYUP:
+            if event.key == K_w:
+                self.__is_keydown.remove('UP')
+            if event.key == K_a:
+                self.__is_keydown.remove('LEFT')
+            if event.key == K_s:
+                self.__is_keydown.remove('DOWN')
+            if event.key == K_d:
+                self.__is_keydown.remove('RIGHT')
+
+        if len(self.__is_keydown) == 0:
+            self.player.stop_move()
+        else:
+            self.player.set_direction(self.__is_keydown[-1])
 
     def __map_generate(self):
         for line in range(13):
