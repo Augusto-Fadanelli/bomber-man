@@ -39,6 +39,7 @@ class StartGame:
             self.player.move(self.map.get_barriers())
 
             self.__map_generate()
+            self.__draw_bombs()
             self.__draw_players()
 
             pygame.display.update()
@@ -55,10 +56,7 @@ class StartGame:
             if event.key == K_d:
                 self.__is_keydown.append('RIGHT')
             if event.key == K_k:
-                self.map.update_map('BO', (10, 10))
-                self.map.update_map('BO', (2, 4))
-                self.map.update_map('BO', (5, 1))
-                self.map.update_map('BO', (9, 11))
+                self.player.add_bomb()
 
         # Mantém a movimentação mais fluida
         if event.type == KEYUP:
@@ -70,11 +68,8 @@ class StartGame:
                 self.__is_keydown.remove('DOWN')
             if event.key == K_d:
                 self.__is_keydown.remove('RIGHT')
-            if event.key == K_k:
-                self.map.update_map('BG', (10, 10))
-                self.map.update_map('BG', (2, 4))
-                self.map.update_map('BG', (5, 1))
-                self.map.update_map('BG', (9, 11))
+            #if event.key == K_k:
+                #pass
 
         if len(self.__is_keydown) == 0:
             self.player.stop_move()
@@ -83,6 +78,13 @@ class StartGame:
 
     def __map_generate(self):
         self.map.generate(self.__screen)
+
+    def __draw_bombs(self):
+        for bomb in range(self.player.total_bombs - self.player.available_bombs):
+            self.player.update_bomb(bomb)
+
+        for bomb in range(self.player.total_bombs - self.player.available_bombs):
+            self.__screen.blit(self.player.get_bomb_sprite(bomb), self.player.get_bomb_pos(bomb))
 
     def __draw_players(self):
         self.__screen.blit(self.player.get_char_sprite(), self.player.get_pos())

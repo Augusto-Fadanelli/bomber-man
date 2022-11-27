@@ -1,4 +1,5 @@
 from chars import Character
+from bombs import *
 
 
 class Player:
@@ -11,13 +12,26 @@ class Player:
         self.__is_in_motion = False # Informa se o personagem está em movimento
         self.__is_flipped = False # Indica se a imagem está espelhada ou não
 
+        self.__simple_bombs = []
+        self.total_bombs = 3
+        self.available_bombs = self.total_bombs
+        self.__instantiate_bombs()
+
+    def __instantiate_bombs(self):
+        #for bomb in range(self.total_bombs):
+        new_bomb = Bomb()
+        self.__simple_bombs.append(new_bomb)
+
     def get_char_sprite(self):
         return self.character.get_sprite(self.__direction)
 
+    def get_bomb_sprite(self, bomb_number):
+        return self.__simple_bombs[bomb_number].get_sprite()
+
     def move(self, is_barrier):
         #debug
-        print(self.__pos)
-        print((self.__pos[0] + 32) // 64, self.__pos[1] // 64)
+        # print(self.__pos)
+        # print((self.__pos[0] + 32) // 64, self.__pos[1] // 64)
         if self.__is_in_motion:
             match self.__direction:
                 case 'UP':
@@ -48,3 +62,17 @@ class Player:
 
     def get_pos(self):
         return self.__pos
+
+    def add_bomb(self):
+        if self.available_bombs > 0:
+            self.available_bombs -= 1
+            self.__instantiate_bombs()
+            self.__simple_bombs[self.total_bombs - self.available_bombs -1].set_pos(self.__pos)
+
+    def get_bomb_pos(self, bomb_number:int):
+        return self.__simple_bombs[bomb_number].get_pos()
+
+    def update_bomb(self, bomb_number): # Verifica se a animação da bomba foi finalizada
+        if self.__simple_bombs[bomb_number].is_end_of_animation():
+            self.__simple_bombs.pop(bomb_number)
+            self.available_bombs += 1

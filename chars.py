@@ -11,6 +11,9 @@ class Character(ABC):
     def get_speed(self):
         pass
 
+    @abstractmethod
+    def set_idle(self, is_idle):
+        pass
 
 class Rodolfo(Character):
     def __init__(self):

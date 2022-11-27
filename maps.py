@@ -41,6 +41,10 @@ class Map(ABC):
         pass
 
     @abstractmethod
+    def update_map(self, item: str, pos: tuple):
+        pass
+
+    @abstractmethod
     def get_map(self):
         pass
 
